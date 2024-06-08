@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Table Reservation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Hotel Table Reservation System</h1>
+    <h2>Reserved Tables</h2>
+    <ul>
+        {% for table in reserved_tables %}
+            <li>Name: {{ table.name }}, Party Size: {{ table.party_size }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Make a Reservation</h2>
+    <form action="{{ url_for('reserve') }}" method="get">
+        <button type="submit">Reserve a Table</button>
+    </form>
+    <h2>Process Next Reservation</h2>
+    <form action="{{ url_for('process_reservation') }}" method="get">
+        <button type="submit">Process Reservation</button>
+    </form>
+    <h2>Clear All Reservations</h2>
+    <form action="{{ url_for('clear_reservations') }}" method="get">
+        <button type="submit">Clear Reservations</button>
+    </form>
+</body>
+</html>

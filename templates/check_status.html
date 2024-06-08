@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Check Reservation Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+        .form-signin .form-control {
+            margin-bottom: 10px;
+        }
+        .result-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="text-center">
+    <div class="container">
+        <form class="form-signin" method="post" action="{{ url_for('check_status') }}">
+            <h1 class="h3 mb-3 font-weight-normal">Check Reservation Status</h1>
+            <label for="inputReservationId" class="sr-only">Reservation ID</label>
+            <input type="text" id="inputReservationId" name="reservation_id" class="form-control" placeholder="Reservation ID" required autofocus>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Check Status</button>
+        </form>
+        <form class="form-signin" action="{{ url_for('customer') }}" method="get">
+            <button class="btn btn-lg btn-primar btn-block" type="submit">Back</button>
+        </form>
+    </div>
+    <form class="form-signin">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="result-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% if reservation %}
+        <div class="result-container">
+            <h2>Reservation Details</h2>
+            <p><strong>Reservation ID:</strong> {{ reservation['reservation_id'] }}</p>
+            <p><strong>Name:</strong> {{ reservation['name'] }}</p>
+            <p><strong>Party Size:</strong> {{ reservation['party_size'] }}</p>
+            <p><strong>Status:</strong> {{ reservation['status'] }}</p>
+        </div>
+    {% endif %}
+    </form>
+</body>
+</html>
